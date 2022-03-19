@@ -1,0 +1,18 @@
+.container {
+  display: flex;
+  gap: 5px;
+  flex-direction: column;
+  place-items: center;
+  justify-content: center;
+}
+
+.row {
+  display: flex;
+  gap: 5px;
+}
+
+.box {
+  width: 100px;
+  height: 100px;
+  border: 1px solid grey;
+}
