@@ -51,17 +51,14 @@ body {
   justify-content: flex-start;
   flex: 0 1 50px;
   min-height: 50px;
-  /*max-height: 80px;*/
-  /*max-width: 80px;*/
-  /*min-width: 80px;*/
   width: 100%;
   border-radius: 10px;
   font-size: 1.5rem;
   background-color: rgb(228, 228, 228);
   border: 3px solid rgb(189, 189, 189);
   border-bottom-width: 5px;
-  box-shadow: 0 8px 0 2px grey;
-  margin: 0 0 8px 0;
+  box-shadow: 0 5px 0 2px grey;
+  margin: 0 0 5px 0;
   padding: 6px;
   cursor: pointer;
   transition: all 0.05s ease-out;
@@ -73,11 +70,15 @@ body {
 
 .key:active {
   box-shadow: 0 0 0 2px grey;
-  margin: 8px 0 0 0;
+  margin: 5px 0 0 0;
   cursor: pointer;
 }
 
 #keyrow-3 div:first-of-type,
 #keyrow-3 div:last-of-type {
   flex-basis: 300px;
+}
+
+.previously-typed {
+  background-color: rgb(129, 129, 129);
 }

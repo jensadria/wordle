@@ -4,10 +4,10 @@ const wordGuessField = document.getElementById('guess');
 const randomWordIndex = Math.floor(Math.random() * validWords.length);
 const randomWord = validWords[randomWordIndex];
 
-console.log(randomWord);
-
 let guessNr = 0;
 let currentGuess = [];
+let previouslyUsedLetters = [];
+let correctLetters = [];
 let currentRow = document.querySelectorAll(`#row-${guessNr} >.box`);
 
 function updateRow(row, word) {
@@ -21,8 +21,10 @@ function checkWordAndAddClasses(row, word) {
     letterBox.textContent = word[index];
 
     if (word[index] === randomWord[index]) {
+      correctLetters.push(word[index]);
       letterBox.className = 'box correct-spot';
     } else if (randomWord.includes(word[index])) {
+      correctLetters.push(word[index]);
       letterBox.className = 'box wrong-spot';
     } else {
       letterBox.className = 'box not-in-word';
@@ -33,7 +35,9 @@ function checkWordAndAddClasses(row, word) {
 function newGuessAndNextRow() {
   guessNr++;
   currentRow = document.querySelectorAll(`#row-${guessNr} >.box`);
+  previouslyUsedLetters.push(...currentGuess);
   currentGuess = [];
+  updateKeys();
 }
 
 const keyRows = {
@@ -54,7 +58,7 @@ function displayKeys(rows) {
     rowElement.id = 'keyrow-' + index;
     keyboard.appendChild(rowElement);
 
-    for (key of rows[keyRow]) {
+    for (const key of rows[keyRow]) {
       const keyButton = document.createElement('div');
       keyButton.className = 'key';
       keyButton.textContent = key;
@@ -72,13 +76,24 @@ function displayKeys(rows) {
           default:
             currentGuess.length < 5 && currentGuess.push(e.target.textContent);
             updateRow(currentRow, currentGuess);
-            console.log(currentGuess);
         }
       });
 
       rowElement.appendChild(keyButton);
     }
   }
+}
+
+function updateKeys() {
+  const allKeys = document.querySelectorAll('.key');
+  allKeys.forEach((key) => {
+    if (
+      previouslyUsedLetters.includes(key.textContent) &&
+      !correctLetters.includes(key.textContent)
+    ) {
+      key.classList.add('previously-typed');
+    }
+  });
 }
 
 displayKeys(keyRows);
