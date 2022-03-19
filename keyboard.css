@@ -75,10 +75,6 @@ body {
   margin: 8px 0 0 0;
   cursor: pointer;
 }
-#keyrow-0 div:last-of-type {
-  flex: 1 1 160px;
-  overflow: hidden;
-}
 
 #keyrow-4 div {
   flex: 0 1 70%;
@@ -90,7 +86,7 @@ body {
 
 #keyrow-3 div:first-of-type,
 #keyrow-3 div:last-of-type {
-  flex-basis: 160px;
+  flex-basis: 300px;
 }
 
 /*#keyrow-3 div:not(:first-of-type) {
