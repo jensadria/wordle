@@ -4,33 +4,36 @@ const wordGuessField = document.getElementById('guess');
 const randomWordIndex = Math.floor(Math.random() * validWords.length);
 const randomWord = validWords[randomWordIndex];
 
+console.log(randomWord);
+
 let guessNr = 0;
 let currentGuess = [];
-const currentRow = document.querySelectorAll(`#row-${guessNr} >.box`);
-
-//wordGuessForm.addEventListener('submit', (e) => {
-//  e.preventDefault();
-//  const wordGuess = wordGuessField.value;
-
-//  for (const index in rowBoxes) {
-//    const rowBox = rowBoxes[index];
-//    rowBox.textContent = wordGuess[index];
-
-//    if (wordGuess[index] === randomWord[index]) {
-//      rowBox.className = 'box correct-spot';
-//    } else if (randomWord.includes(wordGuess[index])) {
-//      rowBox.className = 'box wrong-spot';
-//    }
-//  }
-//});
+let currentRow = document.querySelectorAll(`#row-${guessNr} >.box`);
 
 function updateRow(row, word) {
   row.forEach((letterBox, index) => {
     letterBox.textContent = word[index];
   });
+}
 
-  //	let index = word.length - 1;
-  //  row[index].textContent = word[index];
+function checkWordAndAddClasses(row, word) {
+  row.forEach((letterBox, index) => {
+    letterBox.textContent = word[index];
+
+    if (word[index] === randomWord[index]) {
+      letterBox.className = 'box correct-spot';
+    } else if (randomWord.includes(word[index])) {
+      letterBox.className = 'box wrong-spot';
+    } else {
+      letterBox.className = 'box not-in-word';
+    }
+  });
+}
+
+function newGuessAndNextRow() {
+  guessNr++;
+  currentRow = document.querySelectorAll(`#row-${guessNr} >.box`);
+  currentGuess = [];
 }
 
 const keyRows = {
@@ -62,8 +65,9 @@ function displayKeys(rows) {
             updateRow(currentRow, currentGuess);
             break;
           case 'GUESS WORD':
-            console.log(currentGuess);
-            //submitGuess(currentGuess);
+            if (currentGuess.length < 5) break;
+            checkWordAndAddClasses(currentRow, currentGuess);
+            newGuessAndNextRow();
             break;
           default:
             currentGuess.length < 5 && currentGuess.push(e.target.textContent);

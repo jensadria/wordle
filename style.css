@@ -4,6 +4,7 @@
   flex-direction: column;
   place-items: center;
   justify-content: center;
+  margin: 20px 0;
 }
 
 .row {
@@ -19,7 +20,7 @@
   height: 100px;
   font-size: 60px;
   font-weight: 500;
-  border: 1px solid grey;
+  border: 3px solid lightgrey;
 }
 
 .correct-spot {
@@ -28,4 +29,8 @@
 
 .wrong-spot {
   background-color: yellow;
+}
+
+.not-in-word {
+  background: lightgray;
 }
