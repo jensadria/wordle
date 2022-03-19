@@ -18,8 +18,11 @@ wordGuessForm.addEventListener('submit', (e) => {
   for (const index in rowBoxes) {
     const rowBox = rowBoxes[index];
     rowBox.textContent = wordGuess[index];
+
+    if (wordGuess[index] === randomWord[index]) {
+      rowBox.className = 'box correct-spot';
+    } else if (randomWord.includes(wordGuess[index])) {
+      rowBox.className = 'box wrong-spot';
+    }
   }
-  //  rowBoxes.forEach((box, index) => {
-  //    box.textContent = wordGuess[index];
-  //  });
 });
