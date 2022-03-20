@@ -32,24 +32,28 @@ h1 {
   font-size: 60px;
   font-weight: 500;
   border: 3px solid lightgrey;
-  transition: all 0.3s ease-in-out;
+  transition: all 0.4s ease-in-out;
 }
 
-/*#row-0 > div {
-  transform: rotateY(0.5turn);
-}*/
+.row > div {
+  transition: all 0.4s ease-in-out;
+}
 
-.correct-spot {
+.row > div.flip {
+  transform: rotateY(-0.5turn);
+}
+
+.box.correct-spot {
   background-color: green;
-  /*transform: rotateY(0.5turn);*/
+  transform: rotateY(0.5turn);
 }
 
-.wrong-spot {
+.box.wrong-spot {
   background-color: yellow;
-  /*transform: rotateY(0.5turn);*/
+  transform: rotateY(0.5turn);
 }
 
-.not-in-word {
+.box.not-in-word {
   background: lightgray;
-  /*transform: rotateY(0.5turn);*/
+  transform: rotateY(0.5turn);
 }

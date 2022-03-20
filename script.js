@@ -8,7 +8,7 @@ let guessNr = 0;
 let currentGuess = [];
 let previouslyUsedLetters = [];
 let correctLetters = [];
-let currentRow = document.querySelectorAll(`#row-${guessNr} >.box`);
+let currentRow = document.querySelectorAll(`#row-${guessNr} .box`);
 
 function updateRow(row, word) {
   row.forEach((letterBox, index) => {
@@ -23,18 +23,21 @@ function checkWordAndAddClasses(row, word) {
     if (word[index] === randomWord[index]) {
       correctLetters.push(word[index]);
       letterBox.className = 'box correct-spot';
+      letterBox.parentElement.className = 'flip';
     } else if (randomWord.includes(word[index])) {
       correctLetters.push(word[index]);
       letterBox.className = 'box wrong-spot';
+      letterBox.parentElement.className = 'flip';
     } else {
       letterBox.className = 'box not-in-word';
+      letterBox.parentElement.className = 'flip';
     }
   });
 }
 
 function newGuessAndNextRow() {
   guessNr++;
-  currentRow = document.querySelectorAll(`#row-${guessNr} >.box >div`);
+  currentRow = document.querySelectorAll(`#row-${guessNr} > div >.box `);
   previouslyUsedLetters.push(...currentGuess);
   currentGuess = [];
   updateKeys();
