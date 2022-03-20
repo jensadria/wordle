@@ -34,19 +34,30 @@ function checkWordAndAddClasses(row, word) {
 
 function newGuessAndNextRow() {
   guessNr++;
-  currentRow = document.querySelectorAll(`#row-${guessNr} >.box`);
+  currentRow = document.querySelectorAll(`#row-${guessNr} >.box >div`);
   previouslyUsedLetters.push(...currentGuess);
   currentGuess = [];
   updateKeys();
+}
+
+function updateKeys() {
+  const allKeys = document.querySelectorAll('.key');
+  allKeys.forEach((key) => {
+    if (
+      previouslyUsedLetters.includes(key.textContent) &&
+      !correctLetters.includes(key.textContent)
+    ) {
+      key.classList.add('previously-typed');
+    }
+  });
 }
 
 const keyRows = {
   rowOne: ['Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P'],
   rowTwo: ['A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L'],
   rowThree: ['Z', 'X', 'C', 'V', 'B', 'N', 'M'],
-  rowFour: ['Backspace', 'GUESS WORD'],
+  rowFour: ['GUESS WORD', 'Backspace'],
 };
-
 const keyboard = document.querySelector('.keyboard');
 
 function displayKeys(rows) {
@@ -69,6 +80,8 @@ function displayKeys(rows) {
             updateRow(currentRow, currentGuess);
             break;
           case 'GUESS WORD':
+            //checkIfValid();
+            //if (!valid) break;
             if (currentGuess.length < 5) break;
             checkWordAndAddClasses(currentRow, currentGuess);
             newGuessAndNextRow();
@@ -82,18 +95,6 @@ function displayKeys(rows) {
       rowElement.appendChild(keyButton);
     }
   }
-}
-
-function updateKeys() {
-  const allKeys = document.querySelectorAll('.key');
-  allKeys.forEach((key) => {
-    if (
-      previouslyUsedLetters.includes(key.textContent) &&
-      !correctLetters.includes(key.textContent)
-    ) {
-      key.classList.add('previously-typed');
-    }
-  });
 }
 
 displayKeys(keyRows);

@@ -18,11 +18,10 @@ body {
 }
 
 .keyboard {
-  margin-top: 20px;
-  background-color: #cccccc;
+  /*background-color: #cccccc;
   border: 3px solid grey;
   border-radius: 10px;
-  box-shadow: 0 8px grey;
+  box-shadow: 0 8px grey;*/
   padding: 20px;
   display: block;
   flex-direction: column;
@@ -40,7 +39,7 @@ body {
   justify-content: center;
   margin: 5px 0;
   width: 100%;
-  gap: 8px;
+  gap: 10px;
   flex: 0 0 100%;
   /*margin-bottom: 10px;*/
 }
@@ -76,7 +75,7 @@ body {
 
 #keyrow-3 div:first-of-type,
 #keyrow-3 div:last-of-type {
-  flex-basis: 300px;
+  flex-basis: 250px;
 }
 
 .previously-typed {
