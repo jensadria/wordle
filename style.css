@@ -84,8 +84,10 @@ h1 {
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
+  min-width: 400px;
   width: 30vw;
   height: 40vh;
+  padding: 20px;
   background-color: #ffffff;
 }
 

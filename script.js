@@ -1,16 +1,21 @@
 const wordGuessForm = document.getElementById('input');
 const wordGuessField = document.getElementById('guess');
 
-const randomWordIndex = Math.floor(Math.random() * validWords.length);
-const randomWord = validWords[randomWordIndex];
+//const randomWordIndex = Math.floor(Math.random() * validWords.length);
+//const randomWord = validWords[randomWordIndex];
+const randomWord = 'HELLO';
 
 const messageContainer = document.getElementById('message-container');
+const messageHeader = document.getElementById('announce');
+const messageSubText = document.getElementById('sub-text');
+const messageParagraph = document.querySelector('#message-container > p');
 
 messageContainer.addEventListener('click', (e) =>
   e.target.classList.add('hide')
 );
 
 let guessNr = 0;
+let randomWordArray = randomWord.split('');
 let currentGuess = [];
 let previouslyUsedLetters = [];
 let correctLetters = [];
@@ -23,25 +28,27 @@ function updateRow(row, word) {
   });
 }
 
-console.log(
-  randomWord.split('').forEach((letter) =>
-    correctLetters.forEach((guessedLetter) => {
-      if (guessedLetter === letter) {
-        correctLetters.push(guessedLetter);
-      }
-    })
-  )
-);
+//function determineMissingLetters() {
+//  guessedLetters.forEach((letter, index) => {
+//    if (previouslyUsedLetters.includes(letter)) {
+//      guessedLetters.splice(index, 1);
+//    }
+//  });
+
+//  console.log(guessedLetters);
+//}
+
+//determineMissingLetters();
 
 function checkWordAndAddClasses(row, word) {
   row.forEach((letterBox, index) => {
     letterBox.textContent = word[index];
 
-    if (word[index] === randomWord[index]) {
+    if (word[index] === randomWordArray[index]) {
       correctLetters.push(word[index]);
       letterBox.className = 'box correct-spot';
       letterBox.parentElement.className = 'flip';
-    } else if (randomWord.includes(word[index])) {
+    } else if (randomWordArray.includes(word[index])) {
       correctLetters.push(word[index]);
       letterBox.className = 'box wrong-spot';
       letterBox.parentElement.className = 'flip';
@@ -51,12 +58,12 @@ function checkWordAndAddClasses(row, word) {
     }
   });
 
-  if (word.join('') === randomWord) displayMessage();
-  if (guessNr === 6) displayMessage();
+  if (word.join('') === randomWord) displayMessage(true);
+  if (guessNr === 6) displayMessage(false);
 }
 
 function goToNextRow() {
-  currentRow = document.querySelectorAll(`#row-${guessNr} > div > .box `);
+  currentRow = document.querySelectorAll(`#row-${guessNr} > div > .box`);
   previouslyUsedLetters.push(...currentGuess);
   currentGuess = [];
   updateKeys();
@@ -74,7 +81,21 @@ function updateKeys() {
   });
 }
 
-function displayMessage() {
+const messageContent = {
+  true: {
+    header: 'Nice!',
+    text: "You've guessed the word! Write a definition for it in the box below",
+  },
+  false: {
+    header: 'Bummer!',
+    text: "Too bad you didn't get it!",
+  },
+};
+
+function displayMessage(won) {
+  messageHeader.textContent = messageContent[won].header;
+  messageSubText.textContent = messageContent[won].text;
+
   messageContainer.classList.remove('hide');
 }
 
