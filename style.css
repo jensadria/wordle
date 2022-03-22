@@ -44,12 +44,12 @@ h1 {
 }
 
 .box.correct-spot {
-  background-color: green;
+  background-color: rgb(0, 153, 0);
   transform: rotateY(0.5turn);
 }
 
 .box.wrong-spot {
-  background-color: yellow;
+  background-color: rgb(255, 217, 0);
   transform: rotateY(0.5turn);
 }
 
@@ -57,3 +57,37 @@ h1 {
   background: lightgray;
   transform: rotateY(0.5turn);
 }
+
+.box.typed {
+  scale: 1.3;
+}
+
+#message-container {
+  position: absolute;
+  background-color: rgba(0, 0, 0, 0.2);
+  width: 100%;
+  height: 100%;
+  left: 0;
+  top: 0;
+  display: grid;
+  place-items: center;
+  transition: all 3s ease-in-out;
+}
+
+#message-container.hide {
+  display: none;
+  transition: all 3s ease-in-out;
+}
+
+#message {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  width: 30vw;
+  height: 40vh;
+  background-color: #ffffff;
+}
+
+/*#message #annouce {
+}*/

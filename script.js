@@ -4,6 +4,12 @@ const wordGuessField = document.getElementById('guess');
 const randomWordIndex = Math.floor(Math.random() * validWords.length);
 const randomWord = validWords[randomWordIndex];
 
+const messageContainer = document.getElementById('message-container');
+
+messageContainer.addEventListener('click', (e) =>
+  e.target.classList.add('hide')
+);
+
 let guessNr = 0;
 let currentGuess = [];
 let previouslyUsedLetters = [];
@@ -13,8 +19,19 @@ let currentRow = document.querySelectorAll(`#row-${guessNr} .box`);
 function updateRow(row, word) {
   row.forEach((letterBox, index) => {
     letterBox.textContent = word[index];
+    letterBox.className = 'box typed';
   });
 }
+
+console.log(
+  randomWord.split('').forEach((letter) =>
+    correctLetters.forEach((guessedLetter) => {
+      if (guessedLetter === letter) {
+        correctLetters.push(guessedLetter);
+      }
+    })
+  )
+);
 
 function checkWordAndAddClasses(row, word) {
   row.forEach((letterBox, index) => {
@@ -33,11 +50,13 @@ function checkWordAndAddClasses(row, word) {
       letterBox.parentElement.className = 'flip';
     }
   });
+
+  if (word.join('') === randomWord) displayMessage();
+  if (guessNr === 6) displayMessage();
 }
 
-function newGuessAndNextRow() {
-  guessNr++;
-  currentRow = document.querySelectorAll(`#row-${guessNr} > div >.box `);
+function goToNextRow() {
+  currentRow = document.querySelectorAll(`#row-${guessNr} > div > .box `);
   previouslyUsedLetters.push(...currentGuess);
   currentGuess = [];
   updateKeys();
@@ -53,6 +72,10 @@ function updateKeys() {
       key.classList.add('previously-typed');
     }
   });
+}
+
+function displayMessage() {
+  messageContainer.classList.remove('hide');
 }
 
 const keyRows = {
@@ -86,8 +109,9 @@ function displayKeys(rows) {
             //checkIfValid();
             //if (!valid) break;
             if (currentGuess.length < 5) break;
+            guessNr++;
             checkWordAndAddClasses(currentRow, currentGuess);
-            newGuessAndNextRow();
+            goToNextRow();
             break;
           default:
             currentGuess.length < 5 && currentGuess.push(e.target.textContent);
