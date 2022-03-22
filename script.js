@@ -40,21 +40,56 @@ function updateRow(row, word) {
 
 //determineMissingLetters();
 
+//function checkWordAndAddClasses(row, word) {
+//  row.forEach((letterBox, index) => {
+//    letterBox.textContent = word[index];
+
+//    if (word[index] === randomWordArray[index]) {
+//      correctLetters.push(word[index]);
+//      letterBox.className = 'box correct-spot';
+//      letterBox.parentElement.className = 'flip';
+//    } else if (randomWordArray.includes(word[index]) ) {
+//      correctLetters.push(word[index]);
+//      letterBox.className = 'box wrong-spot';
+//      letterBox.parentElement.className = 'flip';
+//    } else {
+//      letterBox.className = 'box not-in-word';
+//      letterBox.parentElement.className = 'flip';
+//    }
+//  });
+
+//  if (word.join('') === randomWord) displayMessage(true);
+//  if (guessNr === 6) displayMessage(false);
+//}
+
+//LOLPO
+
 function checkWordAndAddClasses(row, word) {
   row.forEach((letterBox, index) => {
-    letterBox.textContent = word[index];
+    letterBox.className = 'box not-in-word';
+    letterBox.parentElement.className = 'flip';
+  });
 
-    if (word[index] === randomWordArray[index]) {
-      correctLetters.push(word[index]);
+  row.forEach((letterBox, index) => {
+    letterBox.textContent = word[index];
+    if (word[index] === randomWord[index]) {
       letterBox.className = 'box correct-spot';
       letterBox.parentElement.className = 'flip';
-    } else if (randomWordArray.includes(word[index])) {
+      randomWordArray.splice(index, 1, '');
+    }
+  });
+
+  row.forEach((letterBox, index) => {
+    letterBox.textContent = word[index];
+    if (
+      randomWordArray.includes(word[index]) &&
+      word[index] !== randomWord[index]
+    ) {
       correctLetters.push(word[index]);
       letterBox.className = 'box wrong-spot';
       letterBox.parentElement.className = 'flip';
-    } else {
-      letterBox.className = 'box not-in-word';
-      letterBox.parentElement.className = 'flip';
+      const letterIndex = randomWordArray.indexOf(word[index]);
+      randomWordArray.splice(letterIndex, 1, '');
     }
   });
 
@@ -82,19 +117,25 @@ function updateKeys() {
 }
 
 const messageContent = {
-  true: {
+  won: {
     header: 'Nice!',
     text: "You've guessed the word! Write a definition for it in the box below",
+    textInputClass: 'show',
   },
-  false: {
+  lost: {
     header: 'Bummer!',
     text: "Too bad you didn't get it!",
+    textInputClass: 'hide',
+  },
+  wordExists: {
+    header: 'Oh No!',
+    text: 'This word actually exists! Made up words only!',
   },
 };
 
-function displayMessage(won) {
-  messageHeader.textContent = messageContent[won].header;
-  messageSubText.textContent = messageContent[won].text;
+function displayMessage(state) {
+  messageHeader.textContent = messageContent[state].header;
+  messageSubText.textContent = messageContent[state].text;
 
   messageContainer.classList.remove('hide');
 }
