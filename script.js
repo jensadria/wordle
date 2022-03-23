@@ -46,24 +46,25 @@ function checkWord(guessedWordArray, answerWord) {
   const guessedWordArrayObject = guessedWordArray.map((lttr) => {
     return { letter: lttr, match: null };
   });
+  const guessedWordArrayCopy = [...guessedWordArray];
 
   for (let index = 0; index < answerWordArray.length; index++) {
-    if (answerWordArray[index] === guessedWordArray[index]) {
+    if (answerWordArray[index] === guessedWordArrayCopy[index]) {
       guessedWordArrayObject[index].match = 'exact';
       answerWordArray.splice(index, 1, '');
-      guessedWordArray.splice(index, 1, '');
+      guessedWordArrayCopy.splice(index, 1, '');
     }
   }
 
   for (let index = 0; index < answerWordArray.length; index++) {
     if (
-      answerWordArray.includes(guessedWordArray[index]) &&
-      answerWordArray[index] !== guessedWordArray[index]
+      answerWordArray.includes(guessedWordArrayCopy[index]) &&
+      answerWordArray[index] !== guessedWordArrayCopy[index]
     ) {
       guessedWordArrayObject[index].match = 'part';
-      let partMatchIndex = answerWordArray.indexOf(guessedWordArray[index]);
+      let partMatchIndex = answerWordArray.indexOf(guessedWordArrayCopy[index]);
       answerWordArray.splice(partMatchIndex, 1, '');
-      guessedWordArray.splice(partMatchIndex, 1, '');
+      guessedWordArrayCopy.splice(partMatchIndex, 1, '');
     }
   }
 
@@ -85,6 +86,8 @@ function addClassesToBox(row, matchResult) {
 
 function checkStatus() {
   if (currentGuess.join('') === randomWord) gameResult = 'won';
+  console.log(currentGuess);
+  console.log(gameResult);
   if (guessNr === 6) gameResult = 'lost';
   if (gameResult !== null) endGame(gameResult);
 }
