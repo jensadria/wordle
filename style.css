@@ -18,10 +18,9 @@ body {
 
 .container {
   max-width: 600px;
-  height: 100%;
+  height: 80vh;
   margin: 0 auto;
   display: flex;
-  justify-content: space-around;
   flex-direction: column;
 }
 
@@ -30,7 +29,7 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0 20px;
+  padding: 20px 20px;
 }
 
 #top-banner > * {
@@ -59,12 +58,21 @@ body {
   flex-direction: column;
   place-items: center;
   justify-content: center;
-  margin: 20px 0;
+  margin: 50px 0;
 }
 
-h1 {
+header h1 {
   text-align: center;
-  font-size: 50px;
+  font-size: 60px;
+  color: white;
+}
+
+h2 {
+  font-size: 40px;
+}
+
+p {
+  font-size: 20px;
 }
 
 .row {
@@ -131,7 +139,7 @@ h1 {
   /*transition: all 3s ease-in-out;*/
 }
 
-#message {
+.message {
   display: flex;
   flex: 1 1 auto;
   flex-direction: column;
@@ -140,8 +148,9 @@ h1 {
   max-width: 600px;
   width: 600px;
   height: 500px;
-  padding: 20px;
+  padding: 30px;
   background-color: #ffffff;
+  animation: slideIn 300ms;
 }
 
 .overlay.hide {
@@ -159,8 +168,8 @@ h1 {
 
 #word-definition {
   font-family: 'Fredoka', sans-serif;
-  font-size: 30px;
-  line-height: 40px;
+  font-size: 26px;
+  line-height: 30px;
   max-width: 500px;
   width: 500px;
   overflow: none;
@@ -177,7 +186,13 @@ h1 {
   display: flex;
   gap: 20px;
 }
-/*#message #annouce {
+
+#modal-buttons > div {
+  flex: 1;
+  height: 50px;
+  background-color: lightgrey;
+}
+/*#result-message #annouce {
 }*/
 
 @keyframes slideIn {

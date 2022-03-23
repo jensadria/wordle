@@ -19,12 +19,12 @@
 	<header>
 		<div id="top-banner">
 			<div id="left-header-icons">
-				<i class="fa-solid fa-question fa-2x" onclick="displayInstructions()"></i>
+				<i class="fa-solid fa-question fa-2x" onclick="display('instructions')"></i>
 			</div>
 			<h1>WHAT?LE</h1>
 			<div id="right-header-icons">
-				<i class="fa-solid fa-book-open fa-2x"></i>
-				<i class="fa-solid fa-gear fa-2x"></i>
+				<i class="fa-solid fa-book-open fa-2x" onclick="display('dictionary')"></i>
+				<i class="fa-solid fa-gear fa-2x" onclick="display('settings')"></i>
 			</div>
 		</div>
 	</header>
@@ -136,28 +136,49 @@
 		<div class="keyboard">
 		</div>
 
-		<div id="message-container" class="overlay" onclick="closeContainer(this)">
-			<div id="message">
+		<div id="message-container" class="overlay ">
+			<div id="result-message" class="message">
 				<h1 id="announce"></h1>
 				<p id="sub-text"></p>
-				<h1 id="the-word">
-				</h1>
+				<h2 id="the-word">
+				</h2>
 				<form id="submit-word" action="" class="show-form">
 					<textarea id="word-definition" rows="5" placeholder="type in your definition here"></textarea>
 				</form>
 				<div id="modal-buttons">
-					<div>Submit</div>
+					<div onclick="submitWord()">Submit</div>
 					<div>Cancel</div>
+					<div onclick="copyWord()">Share</div>
 				</div>
 			</div>
 		</div>
 
-		<div id="instructions-container" class="overlay hide" onclick="closeContainer(this)"></div>
-		<div id="instructions">
-
+		<div id="instructions-container" class="overlay hide">
+			<div id="instructions" class="message">
+				<h1>What?le</h1>
+				<p>This game is exactly like WORDLE except completely the opposite: You must guess a word that does't
+					exist, but sounds like it could! If Shakespeare can invent then why can't you! And just so we're
+					clear from the outset: This game is absolutely pointless</p>
+				<br>
+				<p>
+					You may use any words to guess, imaginary or real! But the word you're guessing is absolute
+					gibberish and nonsense!
+				</p>
+				<br>
+				<p>
+					If you guess it right, you can add it to your dictionary!
+				</p>
+			</div>
 		</div>
 
-		<div id="settings" class="hide">
+
+		<div id="dictionary-container" class="overlay hide">
+			<div id="dictionary" class="message">
+			</div>
+		</div>
+
+		<div id="settings-container" class="overlay hide">
+			<div id="settings" class="message"></div>
 		</div>
 	</div>
 </body>

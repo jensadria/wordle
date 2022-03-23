@@ -1,3 +1,13 @@
+function setClipboard(text) {
+  var type = 'text/plain';
+  var blob = new Blob([text], { type });
+  var data = [new ClipboardItem({ [type]: blob })];
+
+  navigator.clipboard.write(data);
+}
+
+setClipboard('testy');
+
 const wordGuessForm = document.getElementById('input');
 const wordGuessField = document.getElementById('guess');
 
@@ -18,13 +28,15 @@ const instructions = document.getElementById('instructions');
 
 // EVENT LISTENERS
 
-//messageContainer.addEventListener('click', (e) =>
-//  e.target.classList.add('hide')
-//);
+document
+  .querySelectorAll('.container')
+  .forEach((item) =>
+    item.addEventListener('click', (e) => e.target.classList.add('hide'))
+  );
 
-function closeContainer(e) {
-  e.classList.add('hide');
-}
+//function closeContainer(e) {
+//  e.classList.add('hide');
+//}
 
 let guessNr = 0;
 let currentGuess = [];
@@ -41,7 +53,7 @@ function updateRow(row, word) {
   });
 }
 
-function checkWord(guessedWordArray, answerWord) {
+function checkWordMatch(guessedWordArray, answerWord) {
   const answerWordArray = answerWord.split('');
   const guessedWordArrayObject = guessedWordArray.map((lttr) => {
     return { letter: lttr, match: null };
@@ -84,6 +96,8 @@ function addClassesToBox(row, matchResult) {
   });
 }
 
+navigator.clipboard.write('test');
+
 function checkStatus() {
   if (currentGuess.join('') === randomWord) gameResult = 'won';
   console.log(currentGuess);
@@ -119,7 +133,7 @@ function updateKeys() {
 const messageContent = {
   won: {
     header: 'Nice!',
-    text: "You've guessed the word! Write a definition for it in the box below",
+    text: "You've guessed the word! Write a definition for it in the box below. We know a guy who works for Merriam Webster and he said he'll add the word. Why would he lie",
     textInputClass: 'show-form',
   },
   lost: {
@@ -143,8 +157,9 @@ function displayMessage(result) {
   messageContainer.classList.remove('hide');
 }
 
-function displayInstructions() {
-  instructionsContainer.classList.remove('hide');
+function display(modal) {
+  const modalToOpen = document.getElementById(`${modal}-container`);
+  modalToOpen.classList.remove('hide');
 }
 
 const keyRows = {
@@ -190,7 +205,7 @@ function displayKeys(rows) {
             //if (!valid) break;
             if (currentGuess.length < 5) break;
             guessNr++;
-            const matchResult = checkWord(currentGuess, randomWord);
+            const matchResult = checkWordMatch(currentGuess, randomWord);
             addClassesToBox(currentRow, matchResult);
             checkStatus();
             goToNextRow();
