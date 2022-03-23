@@ -1,5 +1,60 @@
+@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Source+Code+Pro&display=swap');
+
+/** {
+  border: 1px dotted red;
+}*/
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Fredoka', sans-serif;
+  height: 100vh;
+}
+
+.container {
+  max-width: 600px;
+  height: 100%;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-around;
+  flex-direction: column;
+}
+
+#top-banner {
+  background-color: rgb(0, 211, 183);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px;
+}
+
+#top-banner > * {
+  flex: 1;
+}
+
+#top-banner i {
+  cursor: pointer;
+}
+#top-banner i:hover {
+  color: white;
+}
+
+#right-header-icons > i {
+  margin-left: 10px;
+}
+
+#right-header-icons {
+  text-align: right;
+}
+
 .wordle-container {
   display: flex;
+  /*flex: 1;*/
   gap: 5px;
   flex-direction: column;
   place-items: center;
@@ -64,19 +119,15 @@ h1 {
 
 #message-container {
   position: absolute;
-  background-color: rgba(0, 0, 0, 0.2);
+  background-color: rgba(0, 0, 0, 0.1);
   width: 100%;
   height: 100%;
   left: 0;
   top: 0;
   display: grid;
   place-items: center;
-  transition: all 3s ease-in-out;
-}
-
-#message-container.hide {
-  display: none;
-  transition: all 3s ease-in-out;
+  animation: slideIn 300ms;
+  /*transition: all 3s ease-in-out;*/
 }
 
 #message {
@@ -91,5 +142,47 @@ h1 {
   background-color: #ffffff;
 }
 
+#message-container.hide {
+  display: none;
+}
+
+#sub-text {
+  flex: 1;
+}
+
+#the-word {
+  margin-bottom: 10px;
+  font-weight: 200;
+}
+
+#word-definition {
+  font-family: 'Fredoka', sans-serif;
+  font-size: 20px;
+  line-height: 20px;
+  width: 100%;
+  resize: none;
+  /*align-self: flex-end;*/
+}
+
+.hide-form {
+  display: none;
+}
+
+#modal-buttons {
+  display: flex;
+  gap: 20px;
+}
 /*#message #annouce {
 }*/
+
+@keyframes slideIn {
+  0% {
+    /*transform: translateY(50px);*/
+    opacity: 0;
+  }
+
+  100% {
+    /*transform: translateY(0px);*/
+    opacity: 1;
+  }
+}
