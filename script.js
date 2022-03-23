@@ -3,6 +3,7 @@ const wordGuessField = document.getElementById('guess');
 
 const randomWordIndex = Math.floor(Math.random() * validWords.length);
 const randomWord = validWords[randomWordIndex];
+const randomWordArray = randomWord.split('');
 
 const messageContainer = document.getElementById('message-container');
 const messageHeader = document.getElementById('announce');
@@ -30,54 +31,97 @@ function updateRow(row, word) {
   });
 }
 
-const randomWordArrayObjects = randomWord.split('').map((lttr) => {
-  return { letter: lttr, color: null };
-});
-console.log(randomWordArrayObjects.map((obj) => obj.letter));
+//const randomWordArrayObjects = randomWord.split('').map((lttr) => {
+//  return { letter: lttr, color: null };
+//});
+//console.log(randomWordArrayObjects.map((obj) => obj.letter));
 
-function checkWordAndAddClasses(row, word) {
-  let randomWordArray = randomWord.split('');
+//function checkWordAndAddClasses(row, word) {
+//  let randomWordArray = randomWord.split('');
 
+//  row.forEach((letterBox, index) => {
+//    letterBox.className = 'box not-in-word';
+//    letterBox.parentElement.className = 'flip';
+//  });
+
+//  row.forEach((letterBox, index) => {
+//    letterBox.textContent = word[index];
+//    if (word[index] === randomWord[index]) {
+//      correctLetters.push(word[index]);
+//      letterBox.className = 'box correct-spot';
+//      letterBox.parentElement.className = 'flip';
+//      randomWordArray.splice(index, 1, '');
+//    }
+//  });
+
+//  row.forEach((letterBox, index) => {
+//    letterBox.textContent = word[index];
+//    if (
+//      randomWordArray.includes(word[index]) &&
+//      word[index] !== randomWord[index]
+//    ) {
+//      correctLetters.push(word[index]);
+//      letterBox.className = 'box wrong-spot';
+//      letterBox.parentElement.className = 'flip';
+//      const letterIndex = randomWordArray.indexOf(word[index]);
+//      randomWordArray.splice(letterIndex, 1, '');
+//    }
+//  });
+
+//if (word.join('') === randomWord) gameResult = 'won';
+//if (guessNr === 6) gameResult = 'lost';
+
+//console.log(gameResult);
+
+//if (gameResult !== null) endGame(gameResult);
+//}
+
+function checkWord(guessedWord, answerWord) {
+  const answerWordArray = answerWord.split('');
+  const answerWordArrayObject = answerWordArray.map((lttr) => {
+    return { letter: lttr, match: null };
+  });
+
+  answerWordArray.forEach((letter, index) => {
+    if (guessedWord[index] === answerWord[index]) {
+      answerWordArrayObject[index].match = 'exact';
+    }
+  });
+
+  answerWordArray.forEach((letter, index) => {
+    if (
+      answerWordArray.includes(guessedWord[index]) &&
+      guessedWord[index] !== answerWord[index]
+    ) {
+      answerWordArrayObject[index].match = 'part';
+    }
+  });
+
+  return answerWordArrayObject;
+}
+
+function addClassesToBox(row, matchResult) {
   row.forEach((letterBox, index) => {
-    letterBox.className = 'box not-in-word';
+    if (matchResult[index].match === null)
+      letterBox.className = 'box not-in-word';
+    if (matchResult[index].match === 'exact')
+      letterBox.className = 'box correct-spot';
+    if (matchResult[index].match === 'part')
+      letterBox.className = 'box wrong-spot';
+
     letterBox.parentElement.className = 'flip';
   });
+}
 
-  row.forEach((letterBox, index) => {
-    letterBox.textContent = word[index];
-    if (word[index] === randomWord[index]) {
-      correctLetters.push(word[index]);
-      letterBox.className = 'box correct-spot';
-      letterBox.parentElement.className = 'flip';
-      randomWordArray.splice(index, 1, '');
-    }
-  });
-
-  row.forEach((letterBox, index) => {
-    letterBox.textContent = word[index];
-    if (
-      randomWordArray.includes(word[index]) &&
-      word[index] !== randomWord[index]
-    ) {
-      correctLetters.push(word[index]);
-      letterBox.className = 'box wrong-spot';
-      letterBox.parentElement.className = 'flip';
-      const letterIndex = randomWordArray.indexOf(word[index]);
-      randomWordArray.splice(letterIndex, 1, '');
-    }
-  });
-
-  if (word.join('') === randomWord) gameResult = 'won';
+function checkStatus() {
+  if (currentGuess.join('') === randomWord) gameResult = 'won';
   if (guessNr === 6) gameResult = 'lost';
-
-  console.log(gameResult);
-
   if (gameResult !== null) endGame(gameResult);
 }
 
 function endGame(result) {
   displayMessage(result);
-  console.log(result);
+  gameOver = true;
 }
 
 function goToNextRow() {
@@ -92,7 +136,7 @@ function updateKeys() {
   allKeys.forEach((key) => {
     if (
       previouslyUsedLetters.includes(key.textContent) &&
-      !correctLetters.includes(key.textContent)
+      !randomWordArray.includes(key.textContent)
     ) {
       key.classList.add('previously-typed');
     }
@@ -168,7 +212,10 @@ function displayKeys(rows) {
             //if (!valid) break;
             if (currentGuess.length < 5) break;
             guessNr++;
-            checkWordAndAddClasses(currentRow, currentGuess);
+            //checkWordAndAddClasses(currentRow, currentGuess);
+            const matchResult = checkWord(currentGuess, randomWord);
+            addClassesToBox(currentRow, matchResult);
+            checkStatus();
             goToNextRow();
             break;
           default:
