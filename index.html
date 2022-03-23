@@ -19,7 +19,7 @@
 	<header>
 		<div id="top-banner">
 			<div id="left-header-icons">
-				<i class="fa-solid fa-question fa-2x"></i>
+				<i class="fa-solid fa-question fa-2x" onclick="displayInstructions()"></i>
 			</div>
 			<h1>WHAT?LE</h1>
 			<div id="right-header-icons">
@@ -136,7 +136,7 @@
 		<div class="keyboard">
 		</div>
 
-		<div id="message-container" class="">
+		<div id="message-container" class="overlay" onclick="closeContainer(this)">
 			<div id="message">
 				<h1 id="announce"></h1>
 				<p id="sub-text"></p>
@@ -152,7 +152,8 @@
 			</div>
 		</div>
 
-		<div id="instructions" class="hide">
+		<div id="instructions-container" class="overlay hide" onclick="closeContainer(this)"></div>
+		<div id="instructions">
 
 		</div>
 

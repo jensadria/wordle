@@ -1,8 +1,9 @@
 const wordGuessForm = document.getElementById('input');
 const wordGuessField = document.getElementById('guess');
 
-const randomWordIndex = Math.floor(Math.random() * validWords.length);
-const randomWord = validWords[randomWordIndex];
+//const randomWordIndex = Math.floor(Math.random() * validWords.length);
+//const randomWord = validWords[randomWordIndex];
+const randomWord = 'HELLO';
 const randomWordArray = randomWord.split('');
 
 const messageContainer = document.getElementById('message-container');
@@ -12,9 +13,18 @@ const messageParagraph = document.querySelector('#message-container p');
 const messageForm = document.querySelector('#message-container form');
 const messageWord = document.querySelector('#message-container #the-word');
 
-messageContainer.addEventListener('click', (e) =>
-  e.target.classList.add('hide')
-);
+const instructionsContainer = document.getElementById('instructions-container');
+const instructions = document.getElementById('instructions');
+
+// EVENT LISTENERS
+
+//messageContainer.addEventListener('click', (e) =>
+//  e.target.classList.add('hide')
+//);
+
+function closeContainer(e) {
+  e.classList.add('hide');
+}
 
 let guessNr = 0;
 let currentGuess = [];
@@ -31,73 +41,33 @@ function updateRow(row, word) {
   });
 }
 
-//const randomWordArrayObjects = randomWord.split('').map((lttr) => {
-//  return { letter: lttr, color: null };
-//});
-//console.log(randomWordArrayObjects.map((obj) => obj.letter));
-
-//function checkWordAndAddClasses(row, word) {
-//  let randomWordArray = randomWord.split('');
-
-//  row.forEach((letterBox, index) => {
-//    letterBox.className = 'box not-in-word';
-//    letterBox.parentElement.className = 'flip';
-//  });
-
-//  row.forEach((letterBox, index) => {
-//    letterBox.textContent = word[index];
-//    if (word[index] === randomWord[index]) {
-//      correctLetters.push(word[index]);
-//      letterBox.className = 'box correct-spot';
-//      letterBox.parentElement.className = 'flip';
-//      randomWordArray.splice(index, 1, '');
-//    }
-//  });
-
-//  row.forEach((letterBox, index) => {
-//    letterBox.textContent = word[index];
-//    if (
-//      randomWordArray.includes(word[index]) &&
-//      word[index] !== randomWord[index]
-//    ) {
-//      correctLetters.push(word[index]);
-//      letterBox.className = 'box wrong-spot';
-//      letterBox.parentElement.className = 'flip';
-//      const letterIndex = randomWordArray.indexOf(word[index]);
-//      randomWordArray.splice(letterIndex, 1, '');
-//    }
-//  });
-
-//if (word.join('') === randomWord) gameResult = 'won';
-//if (guessNr === 6) gameResult = 'lost';
-
-//console.log(gameResult);
-
-//if (gameResult !== null) endGame(gameResult);
-//}
-
-function checkWord(guessedWord, answerWord) {
+function checkWord(guessedWordArray, answerWord) {
   const answerWordArray = answerWord.split('');
-  const answerWordArrayObject = answerWordArray.map((lttr) => {
+  const guessedWordArrayObject = guessedWordArray.map((lttr) => {
     return { letter: lttr, match: null };
   });
 
-  answerWordArray.forEach((letter, index) => {
-    if (guessedWord[index] === answerWord[index]) {
-      answerWordArrayObject[index].match = 'exact';
+  for (let index = 0; index < answerWordArray.length; index++) {
+    if (answerWordArray[index] === guessedWordArray[index]) {
+      guessedWordArrayObject[index].match = 'exact';
+      answerWordArray.splice(index, 1, '');
+      guessedWordArray.splice(index, 1, '');
     }
-  });
+  }
 
-  answerWordArray.forEach((letter, index) => {
+  for (let index = 0; index < answerWordArray.length; index++) {
     if (
-      answerWordArray.includes(guessedWord[index]) &&
-      guessedWord[index] !== answerWord[index]
+      answerWordArray.includes(guessedWordArray[index]) &&
+      answerWordArray[index] !== guessedWordArray[index]
     ) {
-      answerWordArrayObject[index].match = 'part';
+      guessedWordArrayObject[index].match = 'part';
+      let partMatchIndex = answerWordArray.indexOf(guessedWordArray[index]);
+      answerWordArray.splice(partMatchIndex, 1, '');
+      guessedWordArray.splice(partMatchIndex, 1, '');
     }
-  });
+  }
 
-  return answerWordArrayObject;
+  return guessedWordArrayObject;
 }
 
 function addClassesToBox(row, matchResult) {
@@ -164,10 +134,14 @@ const messageContent = {
 function displayMessage(result) {
   messageHeader.textContent = messageContent[result].header;
   messageSubText.textContent = messageContent[result].text;
-  messageForm.className = messageContent[result].textInputClass;
   messageWord.textContent = randomWord;
+  messageForm.className = messageContent[result].textInputClass;
 
   messageContainer.classList.remove('hide');
+}
+
+function displayInstructions() {
+  instructionsContainer.classList.remove('hide');
 }
 
 const keyRows = {
@@ -202,6 +176,7 @@ function displayKeys(rows) {
       keyButton.className = 'key';
       keyButton.innerHTML = key;
       keyButton.addEventListener('click', (e) => {
+        if (gameOver) return;
         switch (e.target.innerHTML) {
           case '<i class="fa-solid fa-delete-left"></i>':
             currentGuess.pop();
@@ -212,7 +187,6 @@ function displayKeys(rows) {
             //if (!valid) break;
             if (currentGuess.length < 5) break;
             guessNr++;
-            //checkWordAndAddClasses(currentRow, currentGuess);
             const matchResult = checkWord(currentGuess, randomWord);
             addClassesToBox(currentRow, matchResult);
             checkStatus();
