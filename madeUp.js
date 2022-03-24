@@ -1,1 +1,1 @@
-const validWords = ['PROIT', 'LOORT', 'ABERT'];
+const validWords = ['PROIT', 'LOORT', 'ABERT', 'STUOT'];

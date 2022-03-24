@@ -136,7 +136,7 @@
 		<div class="keyboard">
 		</div>
 
-		<div id="message-container" class="overlay ">
+		<div id="message-container" class="overlay hide">
 			<div id="result-message" class="message">
 				<h1 id="announce"></h1>
 				<p id="sub-text"></p>
@@ -145,6 +145,7 @@
 				<form id="submit-word" action="" class="show-form">
 					<textarea id="word-definition" rows="5" placeholder="type in your definition here"></textarea>
 				</form>
+				<div id="confirmation-message"></div>
 				<div id="modal-buttons">
 					<div onclick="submitWord()" class="button">Submit</div>
 					<div class="button">Exit</div>

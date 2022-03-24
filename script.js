@@ -1,10 +1,10 @@
 const wordGuessForm = document.getElementById('input');
 const wordGuessField = document.getElementById('guess');
-const allWords = fetchExistingWords();
+let allWords = fetchExistingWords();
 
-//const randomWordIndex = Math.floor(Math.random() * validWords.length);
-//const randomWord = validWords[randomWordIndex];
-const randomWord = 'HELLO';
+const randomWordIndex = Math.floor(Math.random() * validWords.length);
+const randomWord = validWords[randomWordIndex];
+//const randomWord = 'HELLO';
 const randomWordArray = randomWord.split('');
 
 const messageContainer = document.getElementById('message-container');
@@ -13,6 +13,7 @@ const messageSubText = document.getElementById('sub-text');
 const messageParagraph = document.querySelector('#message-container p');
 const messageForm = document.querySelector('#message-container form');
 const messageWord = document.querySelector('#message-container #the-word');
+const messageConfirmation = document.querySelector('#confirmation-message');
 
 const wordsList = document.getElementById('words-list');
 
@@ -155,7 +156,9 @@ function display(modal) {
 
 function copyWordToClipBoard() {
   const definition = document.getElementById('word-definition').value;
-  const textToShare = `I created a new word in WHAT?LE!!! THe word is ${randomWord} and it means "${definition}".`;
+  const textToShare = `I created a new word in WHAT?LE!!! \nTHe word is ${randomWord} and it means "${definition}".`;
+
+  displayConfirmation('The word has been copied to your clipboard!');
 
   setClipboard(textToShare);
 }
@@ -180,7 +183,29 @@ function submitWord() {
 
   allWords.push(wordToSave);
 
+  //  Check if already exists
+  const alreadyExists = allWords.map((word) => word.word);
+  console.log(alreadyExists);
+
+  if (def === 0) {
+    displayConfirmation('Please type in a definition for the word');
+    return;
+  } else if (alreadyExists) {
+    displayConfirmation('You already have a definition for this word!');
+    return;
+  } else {
+    displayConfirmation('The word has been submitted to the dictionary!');
+  }
+
   localStorage.setItem('words', JSON.stringify(allWords));
+
+  addWordsToDictionaryModal();
+}
+
+function displayConfirmation(message) {
+  messageConfirmation.innerText = `${message}`;
+
+  setTimeout(() => (messageConfirmation.innerText = ''), 2000);
 }
 
 function fetchExistingWords() {
