@@ -1,8 +1,10 @@
 const wordGuessForm = document.getElementById('input');
 const wordGuessField = document.getElementById('guess');
-let allWords = fetchExistingWords();
+let wordsFromLocalStorage = fetchExistingWords();
+const stats = fetchStats();
 
 const randomWordIndex = Math.floor(Math.random() * validWords.length);
+const wordsCombined = [...validWords, ...madeUpWords];
 const randomWord = validWords[randomWordIndex];
 //const randomWord = 'HELLO';
 const randomWordArray = randomWord.split('');
@@ -14,6 +16,7 @@ const messageParagraph = document.querySelector('#message-container p');
 const messageForm = document.querySelector('#message-container form');
 const messageWord = document.querySelector('#message-container #the-word');
 const messageConfirmation = document.querySelector('#confirmation-message');
+const modalButtons = document.querySelector('#modal-buttons');
 
 const wordsList = document.getElementById('words-list');
 
@@ -91,9 +94,9 @@ function addClassesToBox(row, matchResult) {
 }
 
 function checkStatus() {
-  if (currentGuess.join('') === randomWord) gameResult = 'won';
-  console.log(currentGuess);
-  console.log(gameResult);
+  if (currentGuess.join('') === randomWord) {
+    gameResult = 'won';
+  }
   if (guessNr === 6) gameResult = 'lost';
   if (gameResult !== null) endGame(gameResult);
 }
@@ -101,6 +104,7 @@ function checkStatus() {
 function endGame(result) {
   displayMessage(result);
   gameOver = true;
+  updateStats(gameResult);
 }
 
 function goToNextRow() {
@@ -127,16 +131,19 @@ const messageContent = {
     header: 'Nice!',
     text: "You've guessed the word! Write a definition for it in the box below. We know a guy who works for Merriam Webster and he said he'll add the word. Why would he lie",
     textInputClass: 'show-form',
+    buttonsClass: '',
   },
   lost: {
     header: 'Bummer!',
     text: "Too bad you didn't get it! The word",
     textInputClass: 'hide-form',
+    buttonsClass: 'hide-buttons',
   },
   wordExists: {
     header: 'Oh No!',
     text: 'This word actually exists! Made up words only!',
     textInputClass: 'hide-form',
+    buttonsClass: 'hide-buttons',
   },
 };
 
@@ -146,6 +153,7 @@ function displayMessage(result) {
   messageWord.textContent = randomWord;
   messageForm.className = messageContent[result].textInputClass;
 
+  modalButtons.className = messageContent[result].buttonsClass;
   messageContainer.classList.remove('hide');
 }
 
@@ -164,7 +172,7 @@ function copyWordToClipBoard() {
 }
 
 function addWordsToDictionaryModal() {
-  allWords.forEach((word) => {
+  wordsFromLocalStorage.forEach((word) => {
     const wordContainer = document.createElement('div');
     wordContainer.className = 'dict-word';
 
@@ -181,23 +189,23 @@ function submitWord() {
   const def = document.getElementById('word-definition').value;
   const wordToSave = { word: randomWord, definition: def };
 
-  allWords.push(wordToSave);
-
   //  Check if already exists
-  const alreadyExists = allWords.map((word) => word.word);
-  console.log(alreadyExists);
+  //  const alreadyExists = wordsFromLocalStorage.map((word) => word.word);
+  //  console.log(alreadyExists);
+
+  wordsFromLocalStorage.push(wordToSave);
 
   if (def === 0) {
     displayConfirmation('Please type in a definition for the word');
     return;
-  } else if (alreadyExists) {
-    displayConfirmation('You already have a definition for this word!');
-    return;
+    //  } else if (alreadyExists) {
+    //    displayConfirmation('You already have a definition for this word!');
+    //    return;
   } else {
     displayConfirmation('The word has been submitted to the dictionary!');
   }
 
-  localStorage.setItem('words', JSON.stringify(allWords));
+  localStorage.setItem('words', JSON.stringify(wordsFromLocalStorage));
 
   addWordsToDictionaryModal();
 }
@@ -215,6 +223,45 @@ function fetchExistingWords() {
       : JSON.parse(localStorage.getItem('words'));
 
   return fetchedWords;
+}
+
+function fetchStats() {
+  const fetchedStats =
+    localStorage.getItem('stats') === null
+      ? {
+          played: 0,
+          wins: 0,
+          percentage: (this.wins / this.played) * 100,
+          streak: 0,
+        }
+      : JSON.parse(localStorage.getItem('stats'));
+
+  return fetchedStats;
+}
+
+function updateStats(result) {
+  stats.played++;
+
+  if (result === 'won') {
+    stats.wins++, stats.streak++;
+  } else if (result === 'lost') {
+    stats.streak = 0;
+  }
+
+  localStorage.setItem('stats', JSON.stringify(stats));
+}
+
+function toggleDarkMode(e) {
+  const darkModeSpan = document.querySelector('#dark-mode-span');
+  if (document.body.dataset['theme'] === 'dark') {
+    document.body.removeAttribute('data-theme');
+    darkModeSpan.innerHTML = `<i class="fa-solid fa-sun fa-2x" onclick="toggleDarkMode(this)"></i>`;
+  } else {
+    document.body.setAttribute('data-theme', 'dark');
+    darkModeSpan.innerHTML = `<i class="fa-solid fa-moon fa-2x" onclick="toggleDarkMode(this)"></i>`;
+  }
+
+  console.log(e);
 }
 
 const keyRows = {

@@ -1,1 +1,1 @@
-const validWords = ['PROIT', 'LOORT', 'ABERT', 'STUOT'];
+const madeUpWords = ['PROIT', 'LOORT', 'ABERT', 'STUOT', 'STIMP', 'CWORT'];

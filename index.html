@@ -5,6 +5,7 @@
 	<meta charset="UTF-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<script defer src="madeUp.js"></script>
 	<script defer src="words.js"></script>
 	<script defer src="script.js"></script>
 	<title>Wordle Clone</title>
@@ -15,16 +16,26 @@
 	<link rel="stylesheet" href="style.css">
 </head>
 
-<body>
+<body data-theme="dark">
 	<header>
 		<div id="top-banner">
 			<div id="left-header-icons">
-				<i class="fa-solid fa-question fa-2x" onclick="display('instructions')"></i>
+				<span class="header-buttons">
+					<i class="fa-solid fa-question fa-2x" onclick="display('instructions')"></i>
+				</span>
+				<span id="dark-mode-span" class="header-buttons">
+					<i class="fa-solid fa-moon fa-2x" onclick="toggleDarkMode()"></i>
+				</span>
 			</div>
 			<h1>WHAT?LE</h1>
 			<div id="right-header-icons">
-				<i class="fa-solid fa-book-open fa-2x" onclick="display('dictionary')"></i>
-				<i class="fa-solid fa-gear fa-2x" onclick="display('settings')"></i>
+				<span class="header-buttons">
+					<i class="fa-solid fa-chart-simple fa-2x" onclick="display('stats')"></i>
+				</span>
+				<span class="header-buttons">
+					<i class="fa-solid fa-book-open fa-2x" onclick="display('dictionary')"></i>
+				</span>
+
 			</div>
 		</div>
 	</header>
@@ -136,6 +147,10 @@
 		<div class="keyboard">
 		</div>
 
+		<!--<div id="not-valid" class="hide">
+			<p> That's not a valid word!</p>
+		</div>-->
+
 		<div id="message-container" class="overlay hide">
 			<div id="result-message" class="message">
 				<h1 id="announce"></h1>
@@ -172,6 +187,16 @@
 			</div>
 		</div>
 
+
+		<div id="stats-container" class="overlay hide">
+			<div id="stats" class="message">
+				<h1>Stats</h1>
+				<h3>That we totally submitted to the Merriam Webster dictionary</h3>
+				<div id="stats-details">
+
+				</div>
+			</div>
+		</div>
 
 		<div id="dictionary-container" class="overlay hide">
 			<div id="dictionary" class="message">

@@ -5,6 +5,35 @@
   border: 1px dotted red;
 }*/
 
+:root {
+  --body-main: #ffffff;
+  --body-secondary: #000000;
+  --boxes-border: lightgrey;
+  --body-grey: grey;
+  --banner-bg-color: rgb(0, 211, 183);
+  --font-color: #000000;
+  --no-match: lightgrey;
+  --exact-match: rgb(0, 153, 0);
+  --partial-match: rgb(255, 217, 0);
+  --modal-bg: #ffffff;
+  --modal-buttons: lightgrey;
+}
+
+/* Done knowledged this from https://codepen.io/cortez/pen/jOrNGGQ */
+[data-theme='dark'] {
+  --body-main: #000000;
+  --body-secondary: #ffffff;
+  --boxes-border: lightgrey;
+  --body-grey: grey;
+  --banner-bg-color: rgb(0, 119, 103);
+  --font-color: #000000;
+  --no-match: grey;
+  --exact-match: rgb(0, 153, 0);
+  --partial-match: rgb(255, 217, 0);
+  --modal-bg: #ffffff;
+  --modal-buttons: lightgrey;
+}
+
 * {
   box-sizing: border-box;
   margin: 0;
@@ -14,6 +43,8 @@
 body {
   font-family: 'Fredoka', sans-serif;
   height: 100vh;
+  background-color: var(--body-main);
+  transition: background-color 0.2s ease-in-out;
 }
 
 .container {
@@ -25,7 +56,7 @@ body {
 }
 
 #top-banner {
-  background-color: rgb(0, 211, 183);
+  background-color: var(--banner-bg-color);
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -36,15 +67,21 @@ body {
   flex: 1;
 }
 
-#top-banner i {
+.header-buttons {
   cursor: pointer;
+  width: 50px;
 }
-#top-banner i:hover {
+
+.header-buttons:hover {
   color: white;
 }
 
-#right-header-icons > i {
-  margin-left: 10px;
+#right-header-icons > span {
+  margin-left: 20px;
+}
+
+#left-header-icons > span {
+  margin-right: 20px;
 }
 
 #right-header-icons {
@@ -64,7 +101,8 @@ body {
 header h1 {
   text-align: center;
   font-size: 60px;
-  color: white;
+  color: var(--body-main);
+  transition: color 0.2s ease-in-out;
 }
 
 h2 {
@@ -94,31 +132,40 @@ p {
   height: 80px;
   font-size: 60px;
   font-weight: 500;
-  border: 3px solid lightgrey;
+  color: var(--body-secondary);
+  background-color: var(--body-main);
+  border: 3px solid var(--boxes-border);
   transition: all 0.4s ease-in-out;
 }
 
 .row > div {
   transition: all 0.4s ease-in-out;
+  background-color: var(--body-main);
+  color: var(--body-main);
 }
 
 .row > div.flip {
   transform: rotateY(-0.5turn);
+  background-color: var(--body-main);
+  color: var(--body-main);
 }
 
 .box.correct-spot {
-  background-color: rgb(0, 153, 0);
+  background-color: var(--exact-match);
   transform: rotateY(0.5turn);
+  color: var(--body-main);
 }
 
 .box.wrong-spot {
-  background-color: rgb(255, 217, 0);
+  background-color: var(--partial-match);
   transform: rotateY(0.5turn);
+  color: var(--body-main);
 }
 
 .box.not-in-word {
-  background: lightgray;
+  background-color: var(--no-match);
   transform: rotateY(0.5turn);
+  color: var(--body-main);
 }
 
 .box.typed {
@@ -149,7 +196,7 @@ p {
   width: 600px;
   height: 500px;
   padding: 30px;
-  background-color: #ffffff;
+  background-color: var(--modal-bg);
   animation: slideIn 300ms;
 }
 
@@ -191,6 +238,10 @@ p {
   gap: 20px;
 }
 
+#modal-buttons.hide-buttons {
+  display: none;
+}
+
 #modal-buttons > div {
   display: grid;
   place-items: center;
@@ -200,7 +251,7 @@ p {
   flex: 1 1 200px;
   width: 100px;
   height: 50px;
-  background-color: lightgrey;
+  background-color: var(--light-grey);
 }
 /*#result-message #annouce {
 }*/
@@ -210,9 +261,9 @@ p {
   width: 100%;
 }
 
-#wordlist:nth-child(odd) {
+/*#wordlist:nth-child(odd) {
   background-color: grey;
-}
+}*/
 
 .dict-word {
   width: 100%;
