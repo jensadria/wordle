@@ -188,12 +188,32 @@ p {
 }
 
 #modal-buttons > div {
-  flex: 1;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  margin-top: 5px;
+  border-radius: 3px;
+  flex: 1 1 200px;
+  width: 100px;
   height: 50px;
   background-color: lightgrey;
 }
 /*#result-message #annouce {
 }*/
+
+#words-list {
+  margin-top: 10px;
+  width: 100%;
+}
+
+#wordlist:nth-child(odd) {
+  background-color: grey;
+}
+
+.dict-word {
+  width: 100%;
+  margin-top: 5px;
+}
 
 @keyframes slideIn {
   0% {

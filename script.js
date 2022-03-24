@@ -1,15 +1,6 @@
-function setClipboard(text) {
-  var type = 'text/plain';
-  var blob = new Blob([text], { type });
-  var data = [new ClipboardItem({ [type]: blob })];
-
-  navigator.clipboard.write(data);
-}
-
-setClipboard('testy');
-
 const wordGuessForm = document.getElementById('input');
 const wordGuessField = document.getElementById('guess');
+const allWords = fetchExistingWords();
 
 //const randomWordIndex = Math.floor(Math.random() * validWords.length);
 //const randomWord = validWords[randomWordIndex];
@@ -22,6 +13,8 @@ const messageSubText = document.getElementById('sub-text');
 const messageParagraph = document.querySelector('#message-container p');
 const messageForm = document.querySelector('#message-container form');
 const messageWord = document.querySelector('#message-container #the-word');
+
+const wordsList = document.getElementById('words-list');
 
 const instructionsContainer = document.getElementById('instructions-container');
 const instructions = document.getElementById('instructions');
@@ -96,8 +89,6 @@ function addClassesToBox(row, matchResult) {
   });
 }
 
-navigator.clipboard.write('test');
-
 function checkStatus() {
   if (currentGuess.join('') === randomWord) gameResult = 'won';
   console.log(currentGuess);
@@ -162,6 +153,45 @@ function display(modal) {
   modalToOpen.classList.remove('hide');
 }
 
+function copyWordToClipBoard() {
+  const definition = document.getElementById('word-definition').value;
+  const textToShare = `I created a new word in WHAT?LE!!! THe word is ${randomWord} and it means "${definition}".`;
+
+  setClipboard(textToShare);
+}
+
+function addWordsToDictionaryModal() {
+  allWords.forEach((word) => {
+    const wordContainer = document.createElement('div');
+    wordContainer.className = 'dict-word';
+
+    wordContainer.innerHTML = `
+		<h3>${word.word}</h3>
+		<p>${word.definition}</p>
+	`;
+
+    wordsList.append(wordContainer);
+  });
+}
+
+function submitWord() {
+  const def = document.getElementById('word-definition').value;
+  const wordToSave = { word: randomWord, definition: def };
+
+  allWords.push(wordToSave);
+
+  localStorage.setItem('words', JSON.stringify(allWords));
+}
+
+function fetchExistingWords() {
+  const fetchedWords =
+    localStorage.getItem('words') === null
+      ? []
+      : JSON.parse(localStorage.getItem('words'));
+
+  return fetchedWords;
+}
+
 const keyRows = {
   rowOne: ['Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P'],
   rowTwo: ['A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L'],
@@ -221,4 +251,14 @@ function displayKeys(rows) {
   }
 }
 
+// Copied from MDN docs
+function setClipboard(text) {
+  var type = 'text/plain';
+  var blob = new Blob([text], { type });
+  var data = [new ClipboardItem({ [type]: blob })];
+
+  navigator.clipboard.write(data);
+}
+
 displayKeys(keyRows);
+addWordsToDictionaryModal();
