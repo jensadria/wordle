@@ -6,4 +6,6 @@ const madeUpWords = [
   'STIMP',
   'CWORT',
   'STOOS',
+  'TROST',
+  'TLOOP',
 ];

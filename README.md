@@ -30,4 +30,11 @@ Don't forget to click the share button to copy your word to the clipboard so you
 Details
 ---
 This is the first project of the General Assembly Software Engineering Flex Immersive Class of 2022.  
-Technologies used are HTML, CSS and Javascript.
+
+Technologies used are **HTML, CSS and Javascript**. 
+
+One of the main goals while building this app was making a Javascript file that had a clear separation of concerns. That means that I tried to make sure that the functions were as re-useable as possible and dependecies to other functions were minimized.
+
+Saved defintions and stats are saved and updated in local storage so that when the user revisits the game the data will persist.
+
+No Wordle tutorials were viewed during the making of this game.

@@ -163,7 +163,7 @@
 				<div id="confirmation-message"></div>
 				<div id="modal-buttons">
 					<div onclick="submitWord()" class="button">Submit</div>
-					<div class="button">Exit</div>
+					<!--<div class="button">Exit</div>-->
 					<div onclick="copyWordToClipBoard()" class="button">Share</div>
 				</div>
 			</div>
@@ -172,17 +172,26 @@
 		<div id="instructions-container" class="overlay hide">
 			<div id="instructions" class="message">
 				<h1>What?le</h1>
-				<p>This game is exactly like WORDLE except completely the opposite: You must guess a word that does't
-					exist, but sounds like it could! If Shakespeare can invent then why can't you! And just so we're
-					clear from the outset: This game is absolutely pointless</p>
-				<br>
+				<p>
+					This game is exactly like WORDLE except completely the opposite: You must guess a word that does't
+					exist, but sounds like it could!
+				</p>
+				<br />
+				<p>
+					If Shakespeare can invent then why can't you! And just so we're
+					clear from the outset: <em> This game is absolutely pointless</em>
+				</p>
+				<br />
 				<p>
 					You may use any words to guess, imaginary or real! But the word you're guessing is absolute
 					gibberish and nonsense!
 				</p>
-				<br>
+				<br />
 				<p>
-					If you guess it right, you can add it to your dictionary!
+					A letter in the right spot will turn to a turqoise color <span class="tiny-green-box"></span>, a
+					letter in the wrong spot will turn to a yellow color <span class="tiny-yellow-box"></span> and if
+					the
+					letter is not in the word it will turn to a gray colour <span class="tiny-gray-box"></span>
 				</p>
 			</div>
 		</div>
@@ -201,7 +210,7 @@
 		<div id="dictionary-container" class="overlay hide">
 			<div id="dictionary" class="message">
 				<h1>What?le</h1>
-				<h3>That we totally submitted to the Merriam Webster dictionary</h3>
+				<h3>That we totally submitted to the Merriam Webster dictionary.</h3>
 				<div id="words-list">
 
 				</div>

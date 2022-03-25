@@ -4,8 +4,8 @@ let wordsFromLocalStorage = fetchExistingWords();
 const stats = fetchStats();
 
 const wordsCombined = [...validWords, ...madeUpWords];
-const randomWordIndex = Math.floor(Math.random() * wordsCombined.length);
-const randomWord = wordsCombined[randomWordIndex];
+const randomWordIndex = Math.floor(Math.random() * madeUpWords.length);
+const randomWord = madeUpWords[randomWordIndex];
 //const randomWord = 'HELLO';
 const randomWordArray = randomWord.split('');
 
@@ -22,8 +22,6 @@ const wordsList = document.getElementById('words-list');
 
 const instructionsContainer = document.getElementById('instructions-container');
 const instructions = document.getElementById('instructions');
-
-// EVENT LISTENERS
 
 document
   .querySelectorAll('.container')
@@ -94,10 +92,10 @@ function addClassesToBox(row, matchResult) {
 }
 
 function checkStatus() {
+  if (guessNr === 5) gameResult = 'lost';
   if (currentGuess.join('') === randomWord) {
     gameResult = 'won';
   }
-  if (guessNr === 6) gameResult = 'lost';
   if (gameResult !== null) endGame(gameResult);
 }
 
@@ -129,13 +127,13 @@ function updateKeys() {
 const messageContent = {
   won: {
     header: 'Nice!',
-    text: "You've guessed the word! Write a definition for it in the box below. We know a guy who works for Merriam Webster and he said he'll add the word. Why would he lie",
+    text: "You've guessed the word! Write a definition for it in the box below. We know a guy who works for Merriam Webster and he said he'll add the word. Why would he lie.",
     textInputClass: 'show-form',
     buttonsClass: '',
   },
   lost: {
     header: 'Bummer!',
-    text: "Too bad you didn't get it! The word",
+    text: "Too bad you didn't get it! The word was obviously",
     textInputClass: 'hide-form',
     buttonsClass: 'hide-buttons',
   },
@@ -168,15 +166,15 @@ function addStatsToModal() {
   statsModal.innerHTML = `
   <p>Played - ${stats.played}</p>  
   <p>Won - ${stats.wins}</p>  
-  <p>Percentage - ${(stats.wins / stats.played) * 100}</p>  
+  <p>Percentage - ${((stats.wins / stats.played) * 100).toFixed(2)} % </p>  
   <p>Current Streak - ${stats.streak}</p>  
   `;
 }
 
 function addWordsToDictionaryModal() {
-  wordsFromLocalStorage.forEach((word) => {
-    //wordsList.textContent = '';
+  wordsList.textContent = '';
 
+  wordsFromLocalStorage.forEach((word) => {
     const wordContainer = document.createElement('div');
     wordContainer.className = 'dict-word';
 
@@ -198,9 +196,7 @@ function submitWord() {
     .map((word) => word.word)
     .includes(randomWord);
 
-  wordsFromLocalStorage.push(wordToSave);
-
-  if (def === 0) {
+  if (def === '') {
     displayConfirmation('Please type in a definition for the word');
     return;
   } else if (alreadyExists) {
@@ -210,6 +206,7 @@ function submitWord() {
     displayConfirmation('The word has been submitted to the dictionary!');
   }
 
+  wordsFromLocalStorage.push(wordToSave);
   localStorage.setItem('words', JSON.stringify(wordsFromLocalStorage));
 
   addWordsToDictionaryModal();
