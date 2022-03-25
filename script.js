@@ -44,7 +44,7 @@ let currentRow = document.querySelectorAll(`#row-${guessNr} .box`);
 function updateRow(row, word) {
   row.forEach((letterBox, index) => {
     letterBox.textContent = word[index];
-    letterBox.className = 'box typed';
+    letterBox.className = 'box';
   });
 }
 
@@ -269,17 +269,7 @@ function toggleDarkMode(e) {
 const keyRows = {
   rowOne: ['Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P'],
   rowTwo: ['A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L'],
-  rowThree: [
-    'Enter',
-    'Z',
-    'X',
-    'C',
-    'V',
-    'B',
-    'N',
-    'M',
-    '<i class="fa-solid fa-delete-left"></i>',
-  ],
+  rowThree: ['Enter', 'Z', 'X', 'C', 'V', 'B', 'N', 'M', '< Del'],
   //  rowFour: [ ],
 };
 const keyboard = document.querySelector('.keyboard');
@@ -296,27 +286,27 @@ function displayKeys(rows) {
     for (const key of rows[keyRow]) {
       const keyButton = document.createElement('div');
       keyButton.className = 'key';
-      keyButton.innerHTML = key;
+      keyButton.textContent = key;
       keyButton.addEventListener('click', (e) => {
         if (gameOver) return;
-        switch (e.target.innerHTML) {
-          case '<i class="fa-solid fa-delete-left"></i>':
+        switch (e.target.textContent) {
+          case '< Del':
             currentGuess.pop();
             updateRow(currentRow, currentGuess);
             break;
           case 'Enter':
-            checkStatus();
-            //checkIfValid();
-            //if (!valid) break;
             if (currentGuess.length < 5) break;
+            checkStatus();
             guessNr++;
             const matchResult = checkWordMatch(currentGuess, randomWord);
             addClassesToBox(currentRow, matchResult);
             goToNextRow();
             break;
           default:
-            currentGuess.length < 5 && currentGuess.push(e.target.textContent);
-            updateRow(currentRow, currentGuess);
+            if (currentGuess.length < 5) {
+              currentGuess.push(e.target.textContent);
+              updateRow(currentRow, currentGuess);
+            }
         }
       });
 
