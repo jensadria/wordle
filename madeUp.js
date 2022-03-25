@@ -8,4 +8,6 @@ const madeUpWords = [
   'STOOS',
   'TROST',
   'TLOOP',
+  'ROOSY',
+  'CORST',
 ];

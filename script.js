@@ -51,6 +51,7 @@ function updateRow(row, word) {
 function checkWordMatch(guessedWordArray, answerWord) {
   const answerWordArray = answerWord.split('');
   const guessedWordArrayCopy = [...guessedWordArray];
+
   const guessedWordArrayObject = guessedWordArray.map((lttr) => {
     return { letter: lttr, match: null };
   });
@@ -163,10 +164,13 @@ function display(modal) {
 function addStatsToModal() {
   const statsModal = document.querySelector('#stats-details');
 
+  const winRatio =
+    stats.wins === 0 ? '0' : ((stats.wins / stats.played) * 100).toFixed(2);
+
   statsModal.innerHTML = `
   <p>Played - ${stats.played}</p>  
   <p>Won - ${stats.wins}</p>  
-  <p>Percentage - ${((stats.wins / stats.played) * 100).toFixed(2)} % </p>  
+  <p>Percentage - ${winRatio} % </p>  
   <p>Current Streak - ${stats.streak}</p>  
   `;
 }
@@ -233,7 +237,6 @@ function fetchStats() {
       ? {
           played: 0,
           wins: 0,
-          percentage: (this.wins / this.played) * 100,
           streak: 0,
         }
       : JSON.parse(localStorage.getItem('stats'));
