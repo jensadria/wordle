@@ -263,7 +263,7 @@ function toggleDarkMode(e) {
   if (document.body.dataset['theme'] === 'dark') {
     document.body.removeAttribute('data-theme');
     darkModeSpan.innerHTML = `<i class="fa-solid fa-moon fa-2x" onclick="toggleDarkMode(this)"></i>`;
-  } else {
+  } else if (!document.body.dataset['theme']) {
     document.body.setAttribute('data-theme', 'dark');
     darkModeSpan.innerHTML = `<i class="fa-solid fa-sun fa-2x" onclick="toggleDarkMode(this)"></i>`;
   }
