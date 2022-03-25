@@ -3,9 +3,9 @@ const wordGuessField = document.getElementById('guess');
 let wordsFromLocalStorage = fetchExistingWords();
 const stats = fetchStats();
 
-const randomWordIndex = Math.floor(Math.random() * validWords.length);
 const wordsCombined = [...validWords, ...madeUpWords];
-const randomWord = validWords[randomWordIndex];
+const randomWordIndex = Math.floor(Math.random() * wordsCombined.length);
+const randomWord = wordsCombined[randomWordIndex];
 //const randomWord = 'HELLO';
 const randomWordArray = randomWord.split('');
 
@@ -52,10 +52,10 @@ function updateRow(row, word) {
 
 function checkWordMatch(guessedWordArray, answerWord) {
   const answerWordArray = answerWord.split('');
+  const guessedWordArrayCopy = [...guessedWordArray];
   const guessedWordArrayObject = guessedWordArray.map((lttr) => {
     return { letter: lttr, match: null };
   });
-  const guessedWordArrayCopy = [...guessedWordArray];
 
   for (let index = 0; index < answerWordArray.length; index++) {
     if (answerWordArray[index] === guessedWordArrayCopy[index]) {
@@ -162,17 +162,21 @@ function display(modal) {
   modalToOpen.classList.remove('hide');
 }
 
-function copyWordToClipBoard() {
-  const definition = document.getElementById('word-definition').value;
-  const textToShare = `I created a new word in WHAT?LE!!! \nTHe word is ${randomWord} and it means "${definition}".`;
+function addStatsToModal() {
+  const statsModal = document.querySelector('#stats-details');
 
-  displayConfirmation('The word has been copied to your clipboard!');
-
-  setClipboard(textToShare);
+  statsModal.innerHTML = `
+  <p>Played - ${stats.played}</p>  
+  <p>Won - ${stats.wins}</p>  
+  <p>Percentage - ${(stats.wins / stats.played) * 100}</p>  
+  <p>Current Streak - ${stats.streak}</p>  
+  `;
 }
 
 function addWordsToDictionaryModal() {
   wordsFromLocalStorage.forEach((word) => {
+    //wordsList.textContent = '';
+
     const wordContainer = document.createElement('div');
     wordContainer.className = 'dict-word';
 
@@ -189,18 +193,19 @@ function submitWord() {
   const def = document.getElementById('word-definition').value;
   const wordToSave = { word: randomWord, definition: def };
 
-  //  Check if already exists
-  //  const alreadyExists = wordsFromLocalStorage.map((word) => word.word);
-  //  console.log(alreadyExists);
+  //Check if already exists
+  const alreadyExists = wordsFromLocalStorage
+    .map((word) => word.word)
+    .includes(randomWord);
 
   wordsFromLocalStorage.push(wordToSave);
 
   if (def === 0) {
     displayConfirmation('Please type in a definition for the word');
     return;
-    //  } else if (alreadyExists) {
-    //    displayConfirmation('You already have a definition for this word!');
-    //    return;
+  } else if (alreadyExists) {
+    displayConfirmation('You already have a definition for this word!');
+    return;
   } else {
     displayConfirmation('The word has been submitted to the dictionary!');
   }
@@ -249,19 +254,19 @@ function updateStats(result) {
   }
 
   localStorage.setItem('stats', JSON.stringify(stats));
+  addStatsToModal();
 }
 
 function toggleDarkMode(e) {
   const darkModeSpan = document.querySelector('#dark-mode-span');
+
   if (document.body.dataset['theme'] === 'dark') {
     document.body.removeAttribute('data-theme');
-    darkModeSpan.innerHTML = `<i class="fa-solid fa-sun fa-2x" onclick="toggleDarkMode(this)"></i>`;
+    darkModeSpan.innerHTML = `<i class="fa-solid fa-moon fa-2x" onclick="toggleDarkMode(this)"></i>`;
   } else {
     document.body.setAttribute('data-theme', 'dark');
-    darkModeSpan.innerHTML = `<i class="fa-solid fa-moon fa-2x" onclick="toggleDarkMode(this)"></i>`;
+    darkModeSpan.innerHTML = `<i class="fa-solid fa-sun fa-2x" onclick="toggleDarkMode(this)"></i>`;
   }
-
-  console.log(e);
 }
 
 const keyRows = {
@@ -303,13 +308,13 @@ function displayKeys(rows) {
             updateRow(currentRow, currentGuess);
             break;
           case 'Enter':
+            checkStatus();
             //checkIfValid();
             //if (!valid) break;
             if (currentGuess.length < 5) break;
             guessNr++;
             const matchResult = checkWordMatch(currentGuess, randomWord);
             addClassesToBox(currentRow, matchResult);
-            checkStatus();
             goToNextRow();
             break;
           default:
@@ -332,5 +337,15 @@ function setClipboard(text) {
   navigator.clipboard.write(data);
 }
 
+function copyWordToClipBoard() {
+  const definition = document.getElementById('word-definition').value;
+  const textToShare = `I created a new word in WHAT?LE!!! \nTHe word is ${randomWord} and it means "${definition}".`;
+
+  displayConfirmation('The word has been copied to your clipboard!');
+
+  setClipboard(textToShare);
+}
+
 displayKeys(keyRows);
 addWordsToDictionaryModal();
+addStatsToModal();

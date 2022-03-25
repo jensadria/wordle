@@ -13,7 +13,7 @@
   --banner-bg-color: rgb(0, 211, 183);
   --font-color: #000000;
   --no-match: lightgrey;
-  --exact-match: rgb(0, 153, 0);
+  --exact-match: rgb(0, 211, 183);
   --partial-match: rgb(255, 217, 0);
   --modal-bg: #ffffff;
   --modal-buttons: lightgrey;
@@ -28,8 +28,8 @@
   --banner-bg-color: rgb(0, 119, 103);
   --font-color: #000000;
   --no-match: grey;
-  --exact-match: rgb(0, 153, 0);
-  --partial-match: rgb(255, 217, 0);
+  --exact-match: rgb(0, 119, 103);
+  --partial-match: rgb(167, 142, 0);
   --modal-bg: #ffffff;
   --modal-buttons: lightgrey;
 }
@@ -70,10 +70,11 @@ body {
 .header-buttons {
   cursor: pointer;
   width: 50px;
+  color: var(--body-main);
 }
 
 .header-buttons:hover {
-  color: white;
+  color: var(--body-secondary);
 }
 
 #right-header-icons > span {
@@ -141,31 +142,31 @@ p {
 .row > div {
   transition: all 0.4s ease-in-out;
   background-color: var(--body-main);
-  color: var(--body-main);
+  color: var(--body-secondary);
 }
 
 .row > div.flip {
   transform: rotateY(-0.5turn);
   background-color: var(--body-main);
-  color: var(--body-main);
+  color: var(--body-secondary);
 }
 
 .box.correct-spot {
   background-color: var(--exact-match);
   transform: rotateY(0.5turn);
-  color: var(--body-main);
+  color: var(--body-secondary);
 }
 
 .box.wrong-spot {
   background-color: var(--partial-match);
   transform: rotateY(0.5turn);
-  color: var(--body-main);
+  color: var(--body-secondary);
 }
 
 .box.not-in-word {
   background-color: var(--no-match);
   transform: rotateY(0.5turn);
-  color: var(--body-main);
+  color: var(--body-secondary);
 }
 
 .box.typed {

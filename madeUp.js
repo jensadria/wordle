@@ -1,1 +1,9 @@
-const madeUpWords = ['PROIT', 'LOORT', 'ABERT', 'STUOT', 'STIMP', 'CWORT'];
+const madeUpWords = [
+  'PROIT',
+  'LOORT',
+  'ABERT',
+  'STUOT',
+  'STIMP',
+  'CWORT',
+  'STOOS',
+];
