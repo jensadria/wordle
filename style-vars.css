@@ -1,0 +1,38 @@
+:root {
+  --body-main: #ffffff;
+  --body-secondary: #000000;
+  --boxes-border: lightgrey;
+  --body-grey: grey;
+  --banner-bg-color: rgb(0, 211, 183);
+  --font-color: #000000;
+  --no-match: lightgrey;
+  --exact-match: rgb(0, 211, 183);
+  --partial-match: rgb(255, 217, 0);
+  --modal-bg: #ffffff;
+  --modal-buttons: lightgrey;
+  --key-buttons: rgb(228, 228, 228);
+  --key-buttons-shadow: grey;
+  --key-buttons-border: rgb(189, 189, 189);
+  --key-hover: rgba(0, 0, 0, 0.03);
+  --key-previously-typed: rgb(129, 129, 129);
+}
+
+/* Done knowledged this from https://codepen.io/cortez/pen/jOrNGGQ */
+[data-theme='dark'] {
+  --body-main: #000000;
+  --body-secondary: #ffffff;
+  --boxes-border: lightgrey;
+  --body-grey: grey;
+  --banner-bg-color: rgb(0, 119, 103);
+  --font-color: #000000;
+  --no-match: grey;
+  --exact-match: rgb(0, 119, 103);
+  --partial-match: rgb(167, 142, 0);
+  --modal-bg: #ffffff;
+  --modal-buttons: lightgrey;
+  --key-buttons: rgb(90, 90, 90);
+  --key-buttons-shadow: grey;
+  --key-buttons-border: rgb(189, 189, 189);
+  --key-hover: rgba(255, 255, 255, 0.3);
+  --key-previously-typed: rgb(129, 129, 129);
+}

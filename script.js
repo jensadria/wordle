@@ -6,7 +6,7 @@ const stats = fetchStats();
 const wordsCombined = [...validWords, ...madeUpWords];
 const randomWordIndex = Math.floor(Math.random() * madeUpWords.length);
 const randomWord = madeUpWords[randomWordIndex];
-//const randomWord = 'HELLO';
+//const randomWord = 'PROIT';
 const randomWordArray = randomWord.split('');
 
 const messageContainer = document.getElementById('message-container');
@@ -72,7 +72,7 @@ function checkWordMatch(guessedWordArray, answerWord) {
       guessedWordArrayObject[index].match = 'part';
       let partMatchIndex = answerWordArray.indexOf(guessedWordArrayCopy[index]);
       answerWordArray.splice(partMatchIndex, 1, '');
-      guessedWordArrayCopy.splice(partMatchIndex, 1, '');
+      //  guessedWordArrayCopy.splice(partMatchIndex, 1, '');
     }
   }
 
